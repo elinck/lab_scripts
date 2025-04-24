@@ -1,0 +1,16 @@
+class,stateProvi,n
+Amphibia,Montana,5
+Amphibia,North Dakota,2
+Amphibia,South Dakota,2
+Aves,Montana,42
+Aves,North Dakota,219
+Aves,South Dakota,57
+Mammalia,Montana,24
+Mammalia,North Dakota,21
+Mammalia,South Dakota,29
+Squamata,Montana,12
+Squamata,North Dakota,10
+Squamata,South Dakota,21
+Testudines,Montana,3
+Testudines,North Dakota,2
+Testudines,South Dakota,2
