@@ -66,7 +66,7 @@ ggplot(data=montana) +
 
 # another common task is plotting elevation. we can use the "elevatr" package to download a DEM to do so
 # download state elev raster or load locally
-f_elev_state = "data/mt_elevs.tif"
+f_elev_state <- "data/mt_elevs.tif"
 if (!file.exists(f_elev_state)) {
   elevation_data <- get_elev_raster(locations=montana, z = 5, clip = "locations")
   terra::writeRaster(elevation_data, f_elev_state, filetype = "GTiff")                                                           
@@ -130,6 +130,7 @@ mtgrid <- montana %>%
 
 # why don't we look at this?
 plot(mtgrid)
+mtgrid <- st_transform(mtgrid, crs = map_proj) 
 
 # create a simple feature showing where each species occurs
 sp_occ_sf <- points_sf %>%
