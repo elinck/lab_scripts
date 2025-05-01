@@ -64,6 +64,56 @@ ggplot(data=montana) +
   xlab("longitude") +
   ylab("latitude")
 
+# we can add points to this showing localities, scaled by number of records
+bird_count_by_site <- read_csv("data/bird_count_by_site_mt.csv") 
+bird_count_by_site_sf <- st_as_sf(bird_count_by_site, coords = c("decimalLon", "decimalLat"), crs = map_proj)
+ggplot(data=montana) +
+  theme_bw() +
+  geom_sf(data=mt_shp_transf, aes(fill=US_L3NAME), alpha=0.2) + #"US_L3NAME" is an attribute of the .shp file
+  geom_sf(data = bird_count_by_site_sf , aes(size=n), pch=2) +
+  xlab("longitude") +
+  ylab("latitude")
+
+# a little busy, so let's only plot the top 10
+ggplot(data=montana) +
+  theme_bw() +
+  geom_sf(data=mt_shp_transf, aes(fill=US_L3NAME), alpha=0.2) + #"US_L3NAME" is an attribute of the .shp file
+  geom_sf(data = bird_count_by_site_sf[1:10,], aes(size=n), pch=2) + # note the indexing on rows here to select 1:10 (in brackets)
+  xlab("longitude") +
+  ylab("latitude")
+
+# ...this time with a label
+ggplot(data=montana) +
+  theme_bw() +
+  geom_sf(data=mt_shp_transf, aes(fill=US_L3NAME), alpha=0.2) + #"US_L3NAME" is an attribute of the .shp file
+  geom_sf_text(data = bird_count_by_site_sf[1:10,], aes(size=n, label=locality)) +
+  xlab("longitude") +
+  ylab("latitude")
+
+# we'll repeat all of this for species richness:
+bird_species_by_site <- read_csv("data/bird_species_by_site_mt.csv") 
+bird_species_by_site_sf <- st_as_sf(bird_species_by_site, coords = c("decimalLon", "decimalLat"), crs = map_proj)
+ggplot(data=montana) +
+  theme_bw() +
+  geom_sf(data=mt_shp_transf, aes(fill=US_L3NAME), alpha=0.2) + #"US_L3NAME" is an attribute of the .shp file
+  geom_sf(data = bird_species_by_site_sf, aes(size=n), pch=2) +
+  xlab("longitude") +
+  ylab("latitude")
+
+ggplot(data=montana) +
+  theme_bw() +
+  geom_sf(data=mt_shp_transf, aes(fill=US_L3NAME), alpha=0.2) + #"US_L3NAME" is an attribute of the .shp file
+  geom_sf(data = bird_species_by_site_sf[1:10,], aes(size=n), pch=2) + # note the indexing on rows here to select 1:10 (in brackets)
+  xlab("longitude") +
+  ylab("latitude")
+
+ggplot(data=montana) +
+  theme_bw() +
+  geom_sf(data=mt_shp_transf, aes(fill=US_L3NAME), alpha=0.2) + #"US_L3NAME" is an attribute of the .shp file
+  geom_sf_text(data = bird_species_by_site_sf[1:10,], aes(size=n, label=locality)) +
+  xlab("longitude") +
+  ylab("latitude")
+
 # another common task is plotting elevation. we can use the "elevatr" package to download a DEM to do so
 # download state elev raster or load locally
 f_elev_state <- "data/mt_elevs.tif"

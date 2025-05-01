@@ -57,11 +57,38 @@ table <- subset_data %>%
 write_csv(table, "data/distinct_species_by_state.csv")
 
 # let's also revisit filtering to produce a csv with only Montana records for plotting in a separate script
+# I've updated this to include locality info (05/02/25)
 montana_data <- data %>%
-  select(class, species, stateProvi, decimalLat, decimalLon, year) %>%
+  select(class, species, stateProvi, locality, decimalLat, decimalLon, year, institutio) %>%
   filter(stateProvi == "Montana")
 write_csv(montana_data, "data/montana_records.csv")
 
+# to select sites, we may want to organize localities by the number of records in each class...
+montana_data %>%
+  group_by(class, locality) %>%
+  summarise(n = n()) %>%
+  arrange(desc(n))
+
+# ...or species in each class
+montana_data %>%
+  group_by(class, locality) %>%
+  summarise(n = n_distinct(species)) %>%
+  arrange(desc(n))
+
+# we can also do this for each class separately, saving the files as needed
+bird_count_by_site <- montana_data %>%
+  filter(class=="Aves") %>% # change for mammals, amphibians, herps, etc
+  group_by(locality, decimalLat, decimalLon) %>%
+  summarise(n = n()) %>%
+  arrange(desc(n))
+write_csv(bird_count_by_site, "data/bird_count_by_site_mt.csv")
+
+# we can also do this for each class separately, saving the files as needed
+bird_species_by_site <- montana_data %>%
+  filter(class=="Aves") %>%  # change for mammals, amphibians, herps, etc
+  group_by(locality, decimalLat, decimalLon) %>%
+  summarise(n = n_distinct(species))
+write_csv(bird_species_by_site, "data/bird_species_by_site_mt.csv")
 
 
 
